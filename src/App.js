@@ -1,92 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const App = () => {
-  const [data, setData] = useState(null);
+import "./App.css";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import DashboardCenter from "./Components/Dashboard/DashboardCenter";
+import Machine1 from "./Components/Machine1/Machine1";
+import Machine2 from "./Components/Machine2/Machine2";
+import Machine3 from "./Components/Machine3/Machine3";
+import Machine4 from "./Components/Machine4/Machine4";
+import Machine5 from "./Components/Machine5/Machine5";
+import Machine8 from "./Components/Machine8/Machine8";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://172.16.206.4:3003/data");
-        setData(response.data);
-      } catch (error) {
-        
-      }
-    };
-
-    fetchData(); // Memuat data pertama kali saat komponen dipasang
-
-    const intervalId = setInterval(() => {
-      fetchData(); // Memuat data setiap 1 detik
-    }, 100);
-
-    return () => clearInterval(intervalId); // Membersihkan interval saat komponen dilepas
-  }, []);
-
+function App() {
   return (
-    <div className="bg-gray-900 py-24 sm:py-32 h-screen">
-      <div className="mx-auto max-w-full px-6 lg:px-8 h-full">
-        <div className="mx-auto max-w-2xl lg:max-w-none h-full">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              STATUS
-            </h1>
-            {data && (
-              <h2
-                className={`py-6 text-3xl font-bold tracking-tight sm:text-4xl ${
-                  data.Status === "OK"
-                    ? "text-green-500"
-                    : data.Status === "SCAN BARCODE"
-                    ? "text-red-500"
-                    : "text-white"
-                }`}
-              >
-                {data.Status}
-              </h2>
-            )}
-          </div>
-          <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
-            {data && (
-              <>
-                <div className="flex flex-col bg-white/5 p-8">
-                  <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    NO MACHINE
-                  </dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-white">
-                    {data.NO_MC}
-                  </dd>
-                </div>
-                <div className="flex flex-col bg-white/5 p-8">
-                  <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    BARCODE
-                  </dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-white">
-                    {data.BARCODE}
-                  </dd>
-                </div>
-                <div className="flex flex-col bg-white/5 p-8">
-                  <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    COUNTER
-                  </dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-white">
-                    {data.Counter}
-                  </dd>
-                </div>
-                <div className="flex flex-col bg-white/5 p-8">
-                  <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    TOTAL COUNTER
-                  </dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-white">
-                    {data.TotalCounter}
-                  </dd>
-                </div>
-              </>
-            )}
-          </dl>
-        </div>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Dashboard />} />
+        <Route path="/Machine1" element={<Machine1 />} />
+        <Route path="/Machine2" element={<Machine2 />} />
+        <Route path="/Machine3" element={<Machine3 />} />
+        <Route path="/Machine4" element={<Machine4 />} />
+        <Route path="/Machine5" element={<Machine5 />} />
+        <Route path="/Machine8" element={<Machine8 />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
