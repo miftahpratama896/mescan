@@ -1,28 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import OkayAudio from "../../Assets/Okay.mp3";
+import ScanAudio from "../../Assets/Scan Barcode.mp3";
 
 const Machine1 = () => {
   const [data, setData] = useState(null);
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://172.16.206.4:3003/data1");
+        const response = await axios.get("http://172.16.200.28:3003/data1");
         setData(response.data);
-      } catch (error) {
-        
-      }
+        if (response.data.Status === "OK") {
+          playAudio(OkayAudio);
+        } else if (response.data.Status === "SCAN BARCODE") {
+          playAudio(ScanAudio);
+        }
+      } catch (error) {}
     };
 
     fetchData(); // Memuat data pertama kali saat komponen dipasang
 
     const intervalId = setInterval(() => {
       fetchData(); // Memuat data setiap 1 detik
-    }, 100);
+    }, 1000);
 
     return () => clearInterval(intervalId); // Membersihkan interval saat komponen dilepas
   }, []);
 
+  const playAudio = (audioFile) => {
+    const audio = new Audio(audioFile);
+    audio.play();
+  };
+  console.log(data);
   return (
     <div className="bg-gray-900 py-24 sm:py-32 h-screen">
       <div className="mx-auto max-w-full px-6 lg:px-8 h-full">
@@ -66,10 +79,15 @@ const Machine1 = () => {
                 </div>
                 <div className="flex flex-col bg-white/5 p-8">
                   <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    COUNTER
+                    HOUR
                   </dt>
                   <dd className="order-first text-5xl font-semibold tracking-tight text-white">
-                    {data.Counter}
+                    <dd className="order-first text-5xl font-semibold tracking-tight text-white">
+                      {currentHour < 10 ? "0" + currentHour : currentHour}:
+                      {currentMinutes < 10
+                        ? "0" + currentMinutes
+                        : currentMinutes}
+                    </dd>
                   </dd>
                 </div>
                 <div className="flex flex-col bg-white/5 p-8">
@@ -78,6 +96,38 @@ const Machine1 = () => {
                   </dt>
                   <dd className="order-first text-5xl font-semibold tracking-tight text-white">
                     {data.TotalCounter}
+                  </dd>
+                </div>
+                <div className="flex flex-col bg-white/5 p-8">
+                  <dt className="text-sm font-semibold leading-6 text-gray-300">
+                    MODEL
+                  </dt>
+                  <dd className="order-first text-5xl font-semibold tracking-tight text-white">
+                    {data.AdditionalInfo.MODEL}
+                  </dd>
+                </div>
+                <div className="flex flex-col bg-white/5 p-8">
+                  <dt className="text-sm font-semibold leading-6 text-gray-300">
+                    COMPONENT
+                  </dt>
+                  <dd className="order-first text-5xl font-semibold tracking-tight text-white">
+                    {data.AdditionalInfo.COMPONENT}
+                  </dd>
+                </div>
+                <div className="flex flex-col bg-white/5 p-8">
+                  <dt className="text-sm font-semibold leading-6 text-gray-300">
+                    SIZE
+                  </dt>
+                  <dd className="order-first text-5xl font-semibold tracking-tight text-white">
+                    {data.AdditionalInfo.SIZE}
+                  </dd>
+                </div>
+                <div className="flex flex-col bg-white/5 p-8">
+                  <dt className="text-sm font-semibold leading-6 text-gray-300">
+                    COUNTER
+                  </dt>
+                  <dd className="order-first text-5xl font-semibold tracking-tight text-white">
+                    {data.Counter}
                   </dd>
                 </div>
               </>

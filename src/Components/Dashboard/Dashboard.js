@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Logo from "../../Assets/img/New Logo White.png";
+import Logo from "../../Assets/img/logos.png";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -25,7 +25,7 @@ export default function Dashboard() {
   const navigation = [
     {
       name: "Machine",
-      href: "/MainMonitoring",
+      href: "#",
       current: false,
       subItems: [
         { name: "Machine 1", href: "/Machine1", active: true },
@@ -33,7 +33,13 @@ export default function Dashboard() {
         { name: "Machine 3", href: "/Machine3", active: true },
         { name: "Machine 4", href: "/Machine4", active: true },
         { name: "Machine 5", href: "/Machine5", active: true },
+        { name: "Machine 6", href: "/Machine6", active: true },
+        { name: "Machine 7", href: "/Machine7", active: true },
         { name: "Machine 8", href: "/Machine8", active: true },
+        { name: "Machine 9", href: "/Machine9", active: true },
+        { name: "Machine 10", href: "/Machine10", active: true },
+        { name: "Machine 11", href: "/Machine11", active: true },
+        { name: "Machine 12", href: "/Machine12", active: true },
       ],
     },
   ];

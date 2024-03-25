@@ -3,7 +3,7 @@ import axios from "axios";
 import OkayAudio from "../../Assets/Okay.mp3";
 import ScanAudio from "../../Assets/Scan Barcode.mp3";
 
-const Machine2 = () => {
+const Machine7 = () => {
   const [data, setData] = useState(null);
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
@@ -12,7 +12,7 @@ const Machine2 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://172.16.200.28:3003/data2");
+        const response = await axios.get("http://172.16.200.28:3003/data7");
         setData(response.data);
         if (response.data.Status === "OK") {
           playAudio(OkayAudio);
@@ -139,4 +139,4 @@ const Machine2 = () => {
   );
 };
 
-export default Machine2;
+export default Machine7;
